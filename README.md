@@ -24,7 +24,7 @@ There are some demo files provided in the data/ folder. a Demo can be run using 
 ```shell
 python main.py --path data/ --dist 1
 ```
-Ths will open the exodus files in the data folder and create a new file that combines the two exodus files. This file can be viewed in Paraview(https://www.paraview.org/).
+This will open the exodus files in the data folder and create a new file that combines the two exodus files in the folder. This file can be viewed in Paraview(https://www.paraview.org/).
 
 ## 4. Code usage
 
