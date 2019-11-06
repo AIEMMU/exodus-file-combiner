@@ -53,7 +53,6 @@ def combine_variables(s, t, idxs,avg_source_idxs, avg_target_idxs):
                     c[i] = np.concatenate([a, b[idxs]])
                 variables.append((v.name, np.ma.array(c)))
     #the variables are stored within the variables array
-    #a for loop is ran to add this to the source file
     for v in variables:
         s[v[0]][:] = v[1]
 
@@ -69,7 +68,7 @@ def change_variables(t, rot, trans):
     var1 = np.zeros(t['vals_nod_var1'].shape)
     var2 = np.zeros(t['vals_nod_var2'].shape)
     var3 = np.zeros(t['vals_nod_var3'].shape)
-
+    i = 0
     for x, y, z in zip(X, Y, Z):
         #rotate  and translate the array and
         # then add it back to the target file
