@@ -9,17 +9,24 @@ try:
     os.remove('source.e')
     print("source file removed")
 except:
-    print("no file found")
+    print("")
 # get argumnets
 parser = argparse.ArgumentParser()
 parser.add_argument("--path", default="", help ="path to dice_solutions")
 parser.add_argument("--dist", type=float, default = 5, help ="The difference between thesitances of points that should be removed between points that should be removed")
 parser.add_argument("--overlap", type=float, default = 0.3, help ="The amount of the point cloud you would like to try and align against. It can only be between 0.01 and 1.0")
+parser.add_argument("--orient",  default = 'hor', help ="The orientation that you wish to align the cameras, its either hor or vert")
 #parse
 flags = parser.parse_args()
 if flags.overlap <0.001 or flags.overlap >1:
     print(" please enter a valid value for the overlap value. It can only be between 0.001 and 1.0")
     quit()
+
+if flags.orient != "hor" and flags.orient != "vert":
+    print("The orientation you added is not correct setting default orientation to hor")
+    flags.orient ='hor'
+
+
 files = glob.glob(f'{flags.path}/*.e')
 
 if len(files)==0:
@@ -40,7 +47,7 @@ for fn in files:
     t = xarray.load_dataset(fn)
     t.to_netcdf('target.e')
     t  = netCDF4.Dataset('target.e', 'r+')
-    s = exo_combine.combine(s,t, diff=flags.dist, overlap = flags.overlap)
+    s = exo_combine.combine(s,t, diff=flags.dist, overlap = flags.overlap, orient = flags.orient)
     t.close()
 
 #close the source file and remove the target clone

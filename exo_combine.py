@@ -84,7 +84,7 @@ def change_variables(t, rot, trans):
     t['vals_nod_var3'][:] = var3
     return t
 
-def combine(ref, t, diff, overlap):
+def combine(ref, t, diff, overlap, orient):
 
     #get file cloud points
     s_coords = get_pointcloud(ref)
@@ -95,8 +95,12 @@ def combine(ref, t, diff, overlap):
     num_points = int(num_points * overlap)
     #get the right most points of the source file, and left most points of the target file
     #so they can be compared for the best fit.
-    left = np.argpartition(s_coords[:, 0], num_points)[-num_points:]
-    right = np.argpartition(t_coords[:, 0], num_points - 1)[:num_points]
+    if orient =='hor':
+        left = np.argpartition(s_coords[:, 0], num_points)[-num_points:]
+        right = np.argpartition(t_coords[:, 0], num_points - 1)[:num_points]
+    else:
+        left = np.argpartition(s_coords[:, 1], num_points)[-num_points:]
+        right = np.argpartition(t_coords[:, 1], num_points - 1)[:num_points]
     #calcuate iteratable Closest point (ICP) with the coordinates
     #to get a translation and rotation matrix for the target points
     T, R1, t1 = icp.icp(t_coords[:num_points], s_coords[-num_points:], max_iterations=500, tolerance=0.000001)
