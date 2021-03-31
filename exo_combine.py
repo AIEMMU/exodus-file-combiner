@@ -103,7 +103,7 @@ def combine(ref, t, diff, overlap, orient):
         right = np.argpartition(t_coords[:, 1], num_points - 1)[:num_points]
     #calcuate iteratable Closest point (ICP) with the coordinates
     #to get a translation and rotation matrix for the target points
-    T, R1, t1 = icp.icp(t_coords[:num_points], s_coords[-num_points:], max_iterations=500, tolerance=0.000001)
+    T, R1, t1 = icp.icp(t_coords[:num_points], s_coords[-num_points:], max_iterations=1000, tolerance=0.001)
 
     #rotation and translation matrix
     rot = T[:3, :3]
